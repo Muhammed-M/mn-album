@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f5f7">
+  <meta name="color-scheme" content="light only">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Our Album · Groom &amp; Bride</title>
+  <link rel="preload" href="fonts/cormorant-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=20261120-2">
+  <script type="module" src="app.js?v=20261120-2"></script>
+</head>
+<body>
+
+  <!-- ───────── Unlock ───────── -->
+  <main id="unlock" class="unlock" hidden>
+    <div class="unlock-hero">
+      <svg class="rings" viewBox="0 0 56 32" aria-hidden="true">
+        <circle cx="21" cy="17" r="11"/><circle cx="35" cy="17" r="11"/>
+        <path d="M35 2.6l2.2 2.6-2.2 2.4-2.2-2.4z"/>
+      </svg>
+      <p class="eyebrow">Our Album</p>
+      <h1 class="names"><span data-couple="groom">Groom</span><span class="amp">&amp;</span><span data-couple="bride">Bride</span></h1>
+      <p class="date">Friday · 27 November 2026</p>
+    </div>
+    <form id="unlock-form" class="unlock-card" autocomplete="on">
+      <label class="field">
+        <span class="sr-only">Album key</span>
+        <input id="key" name="password" type="password" autocomplete="current-password" placeholder="Album key" required>
+      </label>
+      <button id="btn-unlock" class="pill pill-ink pill-lg" type="submit">Open album</button>
+      <p class="unlock-err" id="unlock-err" role="alert" hidden></p>
+    </form>
+  </main>
+
+  <!-- ───────── Album app ───────── -->
+  <div id="shell" class="shell" hidden>
+    <header class="topbar">
+      <div class="brand"><span data-couple="groom">Groom</span> <i>&amp;</i> <span data-couple="bride">Bride</span></div>
+      <nav class="seg" role="tablist" aria-label="View">
+        <button role="tab" data-view="live" aria-selected="true">Live</button>
+        <button role="tab" data-view="album" aria-selected="false">Album</button>
+      </nav>
+      <div class="top-right">
+        <span class="live-pill" id="live-pill" data-state="connecting"><i class="dot"></i><span id="live-text">Connecting</span></span>
+        <button class="icon-btn" id="btn-full" type="button" aria-label="Full screen" title="Full screen">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+        </button>
+        <button class="icon-btn" id="btn-lock" type="button" aria-label="Lock album" title="Lock">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Live: each new photo lands on the pile -->
+    <section id="view-live" class="view view-live" aria-label="Live">
+      <div class="pile" id="pile" aria-live="polite"></div>
+      <div class="live-empty" id="live-empty" hidden>
+        <svg class="rings rings-lg" viewBox="0 0 56 32" aria-hidden="true">
+          <circle cx="21" cy="17" r="11"/><circle cx="35" cy="17" r="11"/>
+          <path d="M35 2.6l2.2 2.6-2.2 2.4-2.2-2.4z"/>
+        </svg>
+        <p class="empty-title">Waiting for the first photo…</p>
+        <p class="empty-sub">The moment a guest takes one, it lands right here.</p>
+      </div>
+      <footer class="live-stats">
+        <div><b id="stat-photos">0</b><span>moments</span></div>
+        <div><b id="stat-guests">0</b><span>guests</span></div>
+      </footer>
+    </section>
+
+    <!-- Album: every photo, by hour, filterable by guest -->
+    <section id="view-album" class="view view-album" aria-label="Album" hidden>
+      <div class="chips" id="chips" role="toolbar" aria-label="Taken by"></div>
+      <div id="sections"></div>
+      <p class="album-empty" id="album-empty" hidden>No photos yet.</p>
+      <button class="new-pill" id="new-pill" type="button" hidden></button>
+    </section>
+  </div>
+
+  <!-- ───────── Viewer ───────── -->
+  <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Photo" hidden>
+    <header class="viewer-top">
+      <button class="icon-btn" id="v-close" type="button" aria-label="Close">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="v-cap"><b id="v-who"></b><span id="v-when"></span></div>
+      <button class="chip-btn" id="v-save" type="button">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>
+        <span>Save</span>
+      </button>
+    </header>
+    <div class="v-stage" id="v-stage">
+      <img id="v-low" alt="" aria-hidden="true">
+      <img id="v-img" alt="">
+    </div>
+    <button class="v-nav v-prev" id="v-prev" type="button" aria-label="Previous photo">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button class="v-nav v-next" id="v-next" type="button" aria-label="Next photo">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <p class="v-count" id="v-count"></p>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
